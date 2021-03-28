@@ -19,15 +19,87 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+import { useState, useEffect, useRef } from "react";
 import { useSession } from "@inrupt/solid-ui-react";
+import { getSolidDataset, getThing, getIri } from "@inrupt/solid-client";
+import { WebsocketNotification } from "@inrupt/solid-client-notifications";
+
+const gateway = "https://notification.dev-ess.inrupt.com/";
+
+async function getPodRoot(webId, fetchFn) {
+  const dataset = await getSolidDataset(webId, { fetch: fetchFn });
+  const profile = getThing(dataset, webId);
+  return getIri(profile, "http://www.w3.org/ns/pim/space#storage");
+}
 
 export default function Home() {
   const { session } = useSession();
+  const [messages, setMessages] = useState([]);
+  const [podRoot, setPodRoot] = useState("");
+
+  const websocket = useRef(null);
+
+  useEffect(() => {
+    if (!session.info.isLoggedIn || !podRoot) {
+      return;
+    }
+
+    websocket.current = new WebsocketNotification(podRoot, session.fetch, {
+      gateway,
+    });
+
+    websocket.current.on("connected", () =>
+      setMessages((prev) => [
+        ...prev,
+        `Websocket connected; watching ${podRoot}`,
+      ])
+    );
+
+    websocket.current.on("message", (message) =>
+      setMessages((prev) => [...prev, message])
+    );
+
+    websocket.current.on("closed", () =>
+      setMessages((prev) => [...prev, "Websocket closed"])
+    );
+
+    websocket.current.on("error", (error) => {
+      /* eslint no-console: 0 */
+      console.error(error);
+      setMessages((prev) => [
+        ...prev,
+        "Websocket error (see console for details)",
+      ]);
+    });
+
+    /* eslint consistent-return: 0 */
+    return () => websocket.current.disconnect();
+  }, [session.info.isLoggedIn, session.fetch, podRoot]);
+
+  useEffect(() => {
+    if (session.info.isLoggedIn) {
+      getPodRoot(session.info.webId, session.fetch).then(setPodRoot);
+    }
+  }, [session.info.isLoggedIn, session.info.webId, session.fetch]);
+
+  useEffect(() => {
+    if (session.info.isLoggedIn && podRoot) {
+      websocket.current.connect();
+    }
+  }, [session.info.isLoggedIn, podRoot]);
 
   return (
     <div>
       <h1>Demo</h1>
+      {!session.info.isLoggedIn && <p>Please log in.</p>}
+
       {session.info.isLoggedIn && <p>Logged in as: {session.info.webId}</p>}
+
+      {session.info.isLoggedIn && <p>Websocket status:</p>}
+
+      {messages.map((m) => (
+        <p>{m}</p>
+      ))}
     </div>
   );
 }

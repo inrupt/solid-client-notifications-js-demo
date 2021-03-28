@@ -5,6 +5,6 @@ export default () => ({
   libraryRepoUrl: packageJson.repository.url,
   demoRepoUrl: packageJson.repository.url,
   copyright: "Copyright 2021 Inrupt, Inc.",
-  demoTitle: "Web App Template Demo",
-  demoDescription: "A template for building in-browser demos",
+  demoTitle: "solid-client-notifications-js Demo",
+  demoDescription: "A demo using solid-client-notifications-js to watch for resource changes",
 });
