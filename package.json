@@ -24,7 +24,7 @@
     "@solid/lit-prism-patterns": "^0.13.1-alpha.2",
     "@solid/lit-prism-theme-sdk-default": "^0.13.1-alpha.2",
     "clsx": "^1.1.1",
-    "form-urlencoded": "^4.2.1",
+    "form-urlencoded": "~4.2.1",
     "jss": "^10.5.1",
     "jss-preset-default": "^10.5.1",
     "next": "10.0.8",

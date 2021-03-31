@@ -35,7 +35,7 @@ async function getPodRoot(webId, fetchFn) {
 export default function Home() {
   const { session } = useSession();
   const [messages, setMessages] = useState([]);
-  const [podRoot, setPodRoot] = useState("");
+  const [podRoot, setPodRoot] = useState(null);
 
   const websocket = useRef(null);
 
