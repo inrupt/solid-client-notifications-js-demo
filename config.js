@@ -2,7 +2,7 @@
 import packageJson from "./package.json";
 
 export default () => ({
-  libraryRepoUrl: packageJson.repository.url,
+  libraryRepoUrl: "https://github.com/inrupt/solid-client-notifications-js",
   demoRepoUrl: packageJson.repository.url,
   copyright: "Copyright 2021 Inrupt, Inc.",
   demoTitle: "solid-client-notifications-js Demo",
