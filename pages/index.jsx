@@ -44,7 +44,8 @@ export default function Home() {
       return;
     }
 
-    websocket.current = new WebsocketNotification(podRoot, session.fetch, {
+    websocket.current = new WebsocketNotification(podRoot, {
+      fetch: session.fetch,
       gateway,
     });
 
