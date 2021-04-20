@@ -73,8 +73,8 @@ export default function Header() {
 
         {!session.sessionRequestInProgress && !session.info.isLoggedIn && (
           <LoginButton
-            authOptions={{clientName: CONFIG.demoTitle}}
-            oidcIssuer="https://broker.dev-ess.inrupt.com/"
+            authOptions={{ clientName: CONFIG.demoTitle }}
+            oidcIssuer="https://broker.pod.inrupt.com/"
             onError={console.error}
           >
             <LinkButton
