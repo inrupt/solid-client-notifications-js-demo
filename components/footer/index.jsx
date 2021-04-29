@@ -28,11 +28,11 @@ const CONFIG = config();
 const footerLinks = [
   {
     text: "View Demo on GitHub",
-    href: CONFIG.libraryRepoUrl,
+    href: CONFIG.demoRepoUrl,
   },
   {
     text: "View Project on GitHub",
-    href: CONFIG.demoRepoUrl,
+    href: CONFIG.libraryRepoUrl,
   },
 ];
 
