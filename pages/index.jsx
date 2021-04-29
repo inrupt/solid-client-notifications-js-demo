@@ -24,7 +24,7 @@ import { useSession } from "@inrupt/solid-ui-react";
 import { getSolidDataset, getThing, getIri } from "@inrupt/solid-client";
 import { WebsocketNotification } from "@inrupt/solid-client-notifications";
 
-const gateway = "https://notification.dev-ess.inrupt.com/";
+const gateway = "https://notification.pod.inrupt.com/";
 
 async function getPodRoot(webId, fetchFn) {
   const dataset = await getSolidDataset(webId, { fetch: fetchFn });
