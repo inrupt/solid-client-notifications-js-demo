@@ -32,6 +32,10 @@ async function getPodRoot(webId, fetchFn) {
   return getIri(profile, "http://www.w3.org/ns/pim/space#storage");
 }
 
+function formatMessage(message) {
+  return JSON.stringify(JSON.parse(message), null, 2);
+}
+
 export default function Home() {
   const { session } = useSession();
   const [messages, setMessages] = useState([]);
@@ -57,7 +61,7 @@ export default function Home() {
     );
 
     websocket.current.on("message", (message) =>
-      setMessages((prev) => [...prev, message])
+      setMessages((prev) => [...prev, formatMessage(message)])
     );
 
     websocket.current.on("closed", () =>
@@ -99,7 +103,9 @@ export default function Home() {
       {session.info.isLoggedIn && <p>Websocket status:</p>}
 
       {messages.map((m) => (
-        <p>{m}</p>
+        <pre>
+          <code>{m}</code>
+        </pre>
       ))}
     </div>
   );
